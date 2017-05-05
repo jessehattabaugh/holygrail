@@ -9,9 +9,10 @@
   "public": false,
   "scripts": {
     "test": "npm run lint",
-    "lint": "eslint ./**/*.js",
-    "bundle": "webpack",
-    "format": "prettier --write --trailing-comma all --use-tabs '{,.,!(node_modules)/**/}*.js'",
+    "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
+    "bundle-server": "webpack --env.target server",
+    "bundle-client": "webpack --env.target client",
+    "format": "prettier --write --trailing-comma all --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
     "precommit": "npm run format && npm run lint"
   },
   "repository": {
@@ -29,6 +30,7 @@
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
+    "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "eslint": "^3.19.0",

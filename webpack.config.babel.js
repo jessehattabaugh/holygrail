@@ -1,31 +1,41 @@
-import path from "path";
-const nodeExternals = require("webpack-node-externals");
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
 
 const base = {
-	devtool: "source-map",
+	devtool: 'source-map',
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				loader: "babel-loader",
+				loader: 'babel-loader',
 			},
 		],
 	},
 };
 
-const srcPath = path.join(__dirname, "src");
-const destPath = path.join(__dirname, "dest");
+const srcPath = path.join(__dirname, 'src');
+const destPath = path.join(__dirname, 'dest');
 
-module.exports = env => {
-	if (env.target == "server") {
+module.exports = (env = {}) => {
+	if (env.target == 'server') {
 		return Object.assign(base, {
-			entry: path.join(srcPath, "server.js"),
+			entry: path.join(srcPath, 'server.js'),
 			output: {
-				filename: "",
+				filename: 'server.bundle.js',
 				path: destPath,
 			},
-			target: "node",
+			target: 'node',
 			externals: [nodeExternals()],
 		});
+	} else if (env.target == 'client') {
+		return Object.assign(base, {
+			entry: path.join(srcPath, 'client.js'),
+			output: {
+				filename: 'client.bundle.js',
+				path: destPath,
+			},
+		});
+	} else {
+		throw new Error('must specify target');
 	}
 };
