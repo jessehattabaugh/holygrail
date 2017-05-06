@@ -1,17 +1,18 @@
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import parseArgs from 'minimist';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import App from './components/App';
 import webpackConfig from '../webpack.config.babel';
 
-const args = parseArgs(process.argv.slice(2));
 const server = express();
 
 const webpackCompiler = webpack(webpackConfig({ target: 'client' }));
+
+const port = process.env.port || 3000;
+const host = process.env.host || process.env.ip || 'localhost';
 
 server.use(
 	webpackDevMiddleware(webpackCompiler, {
@@ -32,12 +33,6 @@ server.get('/', (req, res) => {
 </html>`);
 });
 
-server.listen(args.port, args.host, () => {
-	console.info(`server started at ${args.host}:${args.port}`);
+server.listen(port, host, () => {
+	console.info(`server started at ${host}:${port}`);
 });
-
-if (module.hot) {
-	module.hot.accept('./components/App', function() {
-		console.log(arguments);
-	});
-}
