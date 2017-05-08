@@ -8,15 +8,14 @@ import App from './components/App';
 import webpackConfig from '../webpack.config.babel';
 
 const server = express();
+const clientConfig = webpackConfig({ target: 'client' });
 
-const webpackCompiler = webpack(webpackConfig({ target: 'client' }));
-
-const port = process.env.port || 3000;
-const host = process.env.host || process.env.ip || 'localhost';
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || process.env.IP || 'localhost';
 
 server.use(
-	webpackDevMiddleware(webpackCompiler, {
-		publicPath: '/',
+	webpackDevMiddleware(webpack(clientConfig), {
+		publicPath: clientConfig.output.publicPath,
 	}),
 );
 
@@ -28,11 +27,11 @@ server.get('/', (req, res) => {
 	</head>
 	<body>
 		<div id="root">${renderToString(<App />)}</div>
-		<script src="client.js"></script>
+		<script src="client.bundle.js"></script>
 	</body>
 </html>`);
 });
 
 server.listen(port, host, () => {
-	console.info(`server started at ${host}:${port}`);
+	console.info(`🌮server started at ${host}:${port}`);
 });

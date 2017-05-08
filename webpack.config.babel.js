@@ -1,7 +1,8 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
+import ShellPlugin from 'webpack-shell-plugin';
 
-const base = {
+const baseConfig = {
 	devtool: 'source-map',
 	module: {
 		rules: [
@@ -13,26 +14,42 @@ const base = {
 	},
 };
 
-const srcPath = path.join(__dirname, 'src');
-const destPath = path.join(__dirname, 'dest');
+const srcPath = path.join(process.cwd(), 'src');
 
 module.exports = (env = {}) => {
 	if (env.target == 'server') {
-		return Object.assign(base, {
+		console.info('🐬using the server configuration');
+		const serverPlugins = [];
+
+		if (env.runServerAfterBundle) {
+			serverPlugins.push(
+				new ShellPlugin({
+					onBuildStart: 'echo "🦄commencing bundleification!"',
+					onBuildEnd: 'npm run server',
+				}),
+			);
+		}
+
+		return Object.assign(baseConfig, {
 			entry: path.join(srcPath, 'server.js'),
 			output: {
 				filename: 'server.bundle.js',
-				path: destPath,
+				path: path.join(process.cwd(), 'server'),
 			},
 			target: 'node',
 			externals: [nodeExternals()],
+			watch: !!env.watch,
+			plugins: serverPlugins
 		});
 	} else if (env.target == 'client') {
-		return Object.assign(base, {
+		console.info('🐙using the client configuration');
+		
+		return Object.assign(baseConfig, {
 			entry: path.join(srcPath, 'client.js'),
 			output: {
 				filename: 'client.bundle.js',
-				path: destPath,
+				path: path.join(process.cwd(), 'client'),
+				publicPath: '/'
 			},
 		});
 	} else {

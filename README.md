@@ -6,7 +6,6 @@ flashcard PWA
 
 * fast
 * maintainable
-* better than a native app
 
 ## scripts
 
