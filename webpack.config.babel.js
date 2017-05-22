@@ -2,6 +2,7 @@ import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import ShellPlugin from 'webpack-shell-plugin';
 
+// configuration shared by client and server
 const baseConfig = {
 	devtool: 'source-map',
 	module: {
@@ -26,7 +27,7 @@ module.exports = (env = {}) => {
 				new ShellPlugin({
 					onBuildStart: 'echo "🦄bundling server"',
 					onBuildEnd: 'npm run server',
-				}),
+				})
 			);
 		}
 
@@ -43,14 +44,14 @@ module.exports = (env = {}) => {
 		});
 	} else if (env.target == 'client') {
 		console.info('🐙using the client configuration');
-		
+
 		const clientPlugins = [
 			new ShellPlugin({
 				onBuildStart: 'echo "🍭bundling client"',
-				onBuildEnd: 'echo "☠️ done bundling client"'
-			})	
+				onBuildEnd: 'echo "☠️ done bundling client"',
+			}),
 		];
-		
+
 		return Object.assign(baseConfig, {
 			entry: path.join(srcPath, 'client.js'),
 			output: {
@@ -58,7 +59,7 @@ module.exports = (env = {}) => {
 				path: path.join(process.cwd(), 'client'),
 				publicPath: '/',
 			},
-			plugins: clientPlugins
+			plugins: clientPlugins,
 		});
 	} else {
 		throw new Error('must specify target');
