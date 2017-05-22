@@ -16,7 +16,7 @@ const host = process.env.HOST || process.env.IP || 'localhost';
 server.use(
 	webpackDevMiddleware(webpack(clientConfig), {
 		publicPath: clientConfig.output.publicPath,
-	})
+	}),
 );
 
 server.get('/', (req, res) => {

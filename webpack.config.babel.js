@@ -19,15 +19,15 @@ const srcPath = path.join(process.cwd(), 'src');
 
 module.exports = (env = {}) => {
 	if (env.target == 'server') {
-		console.info('🐬using the server configuration');
+		console.info('🐬 using the server configuration');
 		const serverPlugins = [];
 
 		if (env.runServerAfterBundle) {
 			serverPlugins.push(
 				new ShellPlugin({
-					onBuildStart: 'echo "🦄bundling server"',
+					onBuildStart: 'echo "🦄 bundling server"',
 					onBuildEnd: 'npm run server',
-				})
+				}),
 			);
 		}
 
@@ -43,11 +43,11 @@ module.exports = (env = {}) => {
 			plugins: serverPlugins,
 		});
 	} else if (env.target == 'client') {
-		console.info('🐙using the client configuration');
+		console.info('🐙 using the client configuration');
 
 		const clientPlugins = [
 			new ShellPlugin({
-				onBuildStart: 'echo "🍭bundling client"',
+				onBuildStart: 'echo "🍭 bundling client"',
 				onBuildEnd: 'echo "☠️ done bundling client"',
 			}),
 		];

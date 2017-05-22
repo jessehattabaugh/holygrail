@@ -12,11 +12,10 @@
     "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
     "bundle-server": "webpack --colors --env.target server",
     "bundle-client": "webpack --colors --env.target client",
-    "format": "prettier --write --trailing-comma es5 --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
+    "format": "prettier --write --trailing-comma all --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
     "precommit": "npm run format && npm run lint",
-    "start": "if NODE_ENV == 'production' npm run start-prod else npm run start-dev",
+    "start": "npm run bundle-server && npm run bundle-client && npm run server",
     "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle",
-    "start-prod": "npm run bundle-server && npm run bundle-client && npm run server",
     "server": "node ./server/server.bundle.js"
   },
   "repository": {
