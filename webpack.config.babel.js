@@ -24,7 +24,7 @@ module.exports = (env = {}) => {
 		if (env.runServerAfterBundle) {
 			serverPlugins.push(
 				new ShellPlugin({
-					onBuildStart: 'echo "🦄commencing bundleification!"',
+					onBuildStart: 'echo "🦄bundling server"',
 					onBuildEnd: 'npm run server',
 				}),
 			);
@@ -39,18 +39,26 @@ module.exports = (env = {}) => {
 			target: 'node',
 			externals: [nodeExternals()],
 			watch: !!env.watch,
-			plugins: serverPlugins
+			plugins: serverPlugins,
 		});
 	} else if (env.target == 'client') {
 		console.info('🐙using the client configuration');
+		
+		const clientPlugins = [
+			new ShellPlugin({
+				onBuildStart: 'echo "🍭bundling client"',
+				onBuildEnd: 'echo "☠️ done bundling client"'
+			})	
+		];
 		
 		return Object.assign(baseConfig, {
 			entry: path.join(srcPath, 'client.js'),
 			output: {
 				filename: 'client.bundle.js',
 				path: path.join(process.cwd(), 'client'),
-				publicPath: '/'
+				publicPath: '/',
 			},
+			plugins: clientPlugins
 		});
 	} else {
 		throw new Error('must specify target');

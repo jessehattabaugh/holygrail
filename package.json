@@ -14,7 +14,7 @@
     "bundle-client": "webpack --colors --env.target client",
     "format": "prettier --write --trailing-comma all --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
     "precommit": "npm run format && npm run lint",
-    "start": "if NODE_ENV == 'production' npm run prod else npm run dev",
+    "start": "if NODE_ENV == 'production' npm run start-prod else npm run start-dev",
     "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle",
     "start-prod": "npm run bundle-server && npm run bundle-client && npm run server",
     "server": "node ./server/server.bundle.js"

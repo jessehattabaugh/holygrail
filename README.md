@@ -6,10 +6,15 @@ flashcard PWA
 
 * fast
 * maintainable
+* installable
+* offline capable
+* server side rendered
+* unit tested
+* end-to-end tested
 
 ## scripts
 
-* `npm start` - starts a web server
+* `npm run start-dev` - starts a development web server
 * `npm test` - lints code
 * `npm run format` - formats code
 * `npm run build` - bundles and compiles code
@@ -23,3 +28,5 @@ flashcard PWA
 * `HMR` - switches hot module replacement on or off (defaults to on in `development`)
 * `API` - the url of the API server to use
 * `SSR` - switches server side rendering on or off (defaults to on)
+
+## todo
