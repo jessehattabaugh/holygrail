@@ -25,8 +25,8 @@ module.exports = (env = {}) => {
 		if (env.runServerAfterBundle) {
 			serverPlugins.push(
 				new ShellPlugin({
-					onBuildStart: 'echo "🦄 bundling server"',
-					onBuildEnd: 'npm run server',
+					onBuildStart: 'echo 🦄 bundling server',
+					onBuildEnd: 'npm run server -- --liveClientBundle',
 				}),
 			);
 		}
@@ -47,8 +47,8 @@ module.exports = (env = {}) => {
 
 		const clientPlugins = [
 			new ShellPlugin({
-				onBuildStart: 'echo "🍭 bundling client"',
-				onBuildEnd: 'echo "☠️ done bundling client"',
+				onBuildStart: 'echo 🍭 bundling client',
+				onBuildEnd: 'echo 🏆 done bundling client',
 			}),
 		];
 
