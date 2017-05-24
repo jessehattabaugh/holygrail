@@ -15,9 +15,11 @@ flashcard PWA
 ## scripts
 
 * `npm run start-dev` - starts a development web server
-* `npm test` - lints code
+* `npm run lint` - lints code
 * `npm run format` - formats code
-* `npm run build` - bundles and compiles code
+* `npm run bundle-server` - bundles the server for running in node
+* `npm run bundle-client` - bundles the client for running in browser
+* `npm run kill` - kills all node and npm processes (for EADDRINUSE)
 
 ## environment variables
 
@@ -28,3 +30,6 @@ flashcard PWA
 ## problems
 
 * changes to webpack.config don't take effect until restart
+* changes to server bundle don't take effect until restart
+* changes to client.js require browser refresh
+* ES6 apis are not polyfilled

@@ -8,16 +8,16 @@
   },
   "public": false,
   "scripts": {
-    "test": "npm run lint",
-    "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
-    "bundle-server": "webpack --colors --env.target server",
+    "kill": "killall -9 node && killall -9 npm",
     "bundle-client": "webpack --colors --env.target client",
+    "bundle-server": "webpack --colors --env.target server",
     "format": "prettier --write --trailing-comma all --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
+    "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
     "precommit": "npm run format && npm run lint",
-    "start": "npm run bundle-server && npm run bundle-client && npm run server",
-    "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle",
     "server": "node ./server/server.bundle.js",
-		"kill": "killall -9 node && killall -9 npm"
+    "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle --env.hmr",
+    "start": "npm run bundle-server && npm run bundle-client && npm run server",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -46,8 +46,10 @@
     "prettier": "^1.3.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-hot-loader": "^3.0.0-beta.7",
     "webpack": "^2.5.0",
     "webpack-dev-middleware": "^1.10.2",
+    "webpack-hot-middleware": "^2.18.0",
     "webpack-node-externals": "^1.5.4",
     "webpack-shell-plugin": "^0.5.0"
   }
