@@ -15,7 +15,7 @@
     "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
     "precommit": "npm run format && npm run lint",
     "server": "node ./server/server.bundle.js",
-    "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle --env.hmr",
+    "start-dev": "npm run bundle-server -- --env.watch --env.runServerAfterBundle --env.hotClient --env.hotServer",
     "start": "npm run bundle-server && npm run bundle-client && npm run server",
     "test": "npm run lint"
   },

@@ -3,14 +3,14 @@ import nodeExternals from 'webpack-node-externals';
 import ShellPlugin from 'webpack-shell-plugin';
 import {
 	HotModuleReplacementPlugin,
-	//NamedModulesPlugin
+	//NoEmitOnErrorsPlugin,
+	NamedModulesPlugin,
 } from 'webpack';
 
 const srcPath = path.join(process.cwd(), 'src');
 
-// configuration shared by client and server
+/* configuration shared by client and server **********************************/
 const baseConfig = {
-	context: srcPath,
 	devtool: 'source-map',
 	module: {
 		rules: [
@@ -32,19 +32,34 @@ module.exports = (env = {}) => {
 			serverPlugins.push(
 				new ShellPlugin({
 					onBuildStart: 'echo 🦄 bundling server',
-					onBuildEnd: `npm run server -- --liveClientBundle${env.hmr ? ' --hmr' : ''}`,
+					onBuildEnd: `npm run server -- --liveClientBundle${env.hotClient ? ' --hotClient' : ''}`,
 				}),
 			);
 		}
 
+		const serverEntries = [path.join(srcPath, 'server.entry.js')];
+
+		if (env.hotServer) {
+			serverEntries.unshift('webpack/hot/poll?1000');
+			serverPlugins.push(
+				new HotModuleReplacementPlugin(),
+				//new NoEmitOnErrorsPlugin(),
+				new NamedModulesPlugin(),
+			);
+		}
+
 		return Object.assign(baseConfig, {
-			entry: path.join(srcPath, 'server.js'),
+			entry: serverEntries,
 			output: {
 				filename: 'server.bundle.js',
 				path: path.join(process.cwd(), 'server'),
 			},
 			target: 'node',
-			externals: [nodeExternals()],
+			externals: [
+				nodeExternals({
+					whitelist: ['webpack/hot/poll?1000'],
+				}),
+			],
 			watch: !!env.watch,
 			plugins: serverPlugins,
 		});
@@ -61,10 +76,11 @@ module.exports = (env = {}) => {
 
 		const clientEntries = [path.join(srcPath, 'client.js')];
 
-		if (env.hmr) {
+		if (env.hotClient) {
 			clientPlugins.push(
 				new HotModuleReplacementPlugin(),
-				//new NamedModulesPlugin(),
+				//new NoEmitOnErrorsPlugin(),
+				new NamedModulesPlugin(),
 			);
 			clientEntries.unshift(
 				'react-hot-loader/patch',
