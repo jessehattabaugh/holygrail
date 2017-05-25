@@ -30,8 +30,9 @@ flashcard PWA
 ## problems
 
 * changes to webpack.config don't take effect until restart
-* changes to client.js require browser refresh
 * ES6 apis are not polyfilled
 * no router for handling url
 * no state management
 * main chunk is already pretty big even with very little app code. This is can be fixed by moving react and friends to a vendor chunk
+* there are no real tests to ensure the build system works
+* build products aren't cleaned so they could build up

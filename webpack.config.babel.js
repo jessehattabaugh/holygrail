@@ -52,7 +52,7 @@ module.exports = (env = {}) => {
 			entry: serverEntries,
 			output: {
 				filename: 'server.bundle.js',
-				path: path.join(process.cwd(), 'server'),
+				path: path.join(process.cwd(), 'dist', 'server'),
 			},
 			target: 'node',
 			externals: [
@@ -74,7 +74,7 @@ module.exports = (env = {}) => {
 			}),
 		];
 
-		const clientEntries = [path.join(srcPath, 'client.js')];
+		const clientEntries = [path.join(srcPath, 'client.entry.js')];
 
 		if (env.hotClient) {
 			clientPlugins.push(
@@ -92,7 +92,7 @@ module.exports = (env = {}) => {
 			entry: clientEntries,
 			output: {
 				filename: 'client.bundle.js',
-				path: path.join(process.cwd(), 'client'),
+				path: path.join(process.cwd(), 'dist', 'client'),
 				publicPath: '/',
 			},
 			watch: !!env.watch,
