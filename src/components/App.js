@@ -11,7 +11,7 @@ export default class App extends Component {
 					content goes here
 				</article>
 				<footer>
-					&copy;2017 StudyBlue
+					©2017 StudyBlue
 				</footer>
 			</main>
 		);
