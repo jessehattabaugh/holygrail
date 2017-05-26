@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import ShellPlugin from 'webpack-shell-plugin';
 import {
@@ -11,7 +11,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 const srcPath = path.join(process.cwd(), 'src');
 const outputDir = 'dist';
 
-module.exports = (env = {}) => {
+export default (env = {}) => {
 	/* configuration shared by client and server **********************************/
 	const baseConfig = {
 		devtool: 'source-map',

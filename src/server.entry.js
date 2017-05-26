@@ -1,9 +1,9 @@
-import chalk from 'chalk';
-import express from 'express';
-import parseArgs from 'minimist';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import * as chalk from 'chalk';
+import * as express from 'express';
+import * as parseArgs from 'minimist';
+import * as webpack from 'webpack';
+import * as webpackDevMiddleware from 'webpack-dev-middleware';
+import * as webpackHotMiddleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../webpack.config.babel';
 import renderApp from './renderApp';
