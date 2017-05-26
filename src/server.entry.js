@@ -31,7 +31,7 @@ if (args.liveClientBundle) {
 			publicPath: clientConfig.output.publicPath,
 			stats: { colors: true },
 			serverSideRender: true,
-		})
+		}),
 	);
 
 	if (args.hotClient) {
@@ -70,6 +70,6 @@ const host = process.env.HOST || process.env.IP || 'localhost';
 
 server.listen(port, host, () => {
 	console.info(
-		'🌮 server started at ' + chalk.blue.underline(`${host}:${port}`)
+		'🌮 server started at ' + chalk.blue.underline(`${host}:${port}`),
 	);
 });

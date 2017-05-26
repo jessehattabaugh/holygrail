@@ -9,27 +9,27 @@ import {
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const srcPath = path.join(process.cwd(), 'src');
-
-/* configuration shared by client and server **********************************/
-const baseConfig = {
-	devtool: 'source-map',
-	module: {
-		rules: [
-			{
-				test: /\.js$/,
-				loader: 'babel-loader',
-			},
-		],
-	},
-};
-
-const basePlugins = [new CleanWebpackPlugin()];
+const outputDir = 'dist';
 
 module.exports = (env = {}) => {
+	/* configuration shared by client and server **********************************/
+	const baseConfig = {
+		devtool: 'source-map',
+		module: {
+			rules: [
+				{
+					test: /\.js$/,
+					loader: 'babel-loader',
+				},
+			],
+		},
+	};
+
 	if (env.target == 'server') {
 		/* server config **********************************************************/
 		console.info('🐬 using the server configuration');
-		const serverPlugins = Array.from(basePlugins);
+		const serverPlugins = [];
+		const serverOutputPath = path.join(process.cwd(), outputDir, 'server');
 
 		if (env.runServerAfterBundle) {
 			serverPlugins.push(
@@ -45,9 +45,10 @@ module.exports = (env = {}) => {
 		if (env.hotServer) {
 			serverEntries.unshift('webpack/hot/poll?1000');
 			serverPlugins.push(
+				new CleanWebpackPlugin([serverOutputPath], { watch: !!env.watch }),
 				new HotModuleReplacementPlugin(),
 				//new NoEmitOnErrorsPlugin(),
-				new NamedModulesPlugin()
+				new NamedModulesPlugin(),
 			);
 		}
 
@@ -55,7 +56,7 @@ module.exports = (env = {}) => {
 			entry: serverEntries,
 			output: {
 				filename: 'server.bundle.js',
-				path: path.join(process.cwd(), 'dist', 'server'),
+				path: serverOutputPath,
 			},
 			target: 'node',
 			externals: [
@@ -70,12 +71,15 @@ module.exports = (env = {}) => {
 		/* client config **********************************************************/
 		console.info('🐙 using the client configuration');
 
-		const clientPlugins = basePlugins.concat([
+		const clientOutputPath = path.join(process.cwd(), outputDir, 'client');
+
+		const clientPlugins = [
+			new CleanWebpackPlugin([clientOutputPath], { watch: !!env.watch }),
 			new ShellPlugin({
 				onBuildStart: 'echo 🍭 bundling client',
 				onBuildEnd: 'echo 🐲 done bundling client',
 			}),
-		]);
+		];
 
 		const clientEntries = [path.join(srcPath, 'client.entry.js')];
 
@@ -95,7 +99,7 @@ module.exports = (env = {}) => {
 			entry: clientEntries,
 			output: {
 				filename: 'client.bundle.js',
-				path: path.join(process.cwd(), 'dist', 'client'),
+				path: clientOutputPath,
 				publicPath: '/',
 			},
 			watch: !!env.watch,
