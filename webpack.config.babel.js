@@ -36,7 +36,7 @@ module.exports = (env = {}) => {
 				new ShellPlugin({
 					onBuildStart: 'echo 🦄 bundling server',
 					onBuildEnd: `npm run server -- --liveClientBundle${env.hotClient ? ' --hotClient' : ''}`,
-				})
+				}),
 			);
 		}
 
@@ -87,11 +87,11 @@ module.exports = (env = {}) => {
 			clientPlugins.push(
 				new HotModuleReplacementPlugin(),
 				//new NoEmitOnErrorsPlugin(),
-				new NamedModulesPlugin()
+				new NamedModulesPlugin(),
 			);
 			clientEntries.unshift(
 				'react-hot-loader/patch',
-				'webpack-hot-middleware/client'
+				'webpack-hot-middleware/client',
 			);
 		}
 

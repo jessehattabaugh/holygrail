@@ -30,7 +30,6 @@ if (args.liveClientBundle) {
 		webpackDevMiddleware(clientCompiler, {
 			publicPath: clientConfig.output.publicPath,
 			stats: { colors: true },
-			serverSideRender: true,
 		}),
 	);
 
@@ -49,6 +48,7 @@ let router = null;
 
 // instantiates a new router and reuses the existing middlewares
 function assembleRouter() {
+	console.info('🐠 assembling router');
 	router = express.Router();
 	router.get('/', renderApp);
 	reusedMiddlewares.map(mw => router.use(mw));
