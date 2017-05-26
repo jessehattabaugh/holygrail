@@ -5,7 +5,7 @@ export default class App extends Component {
 		return (
 			<main>
 				<header>
-					<h1>Cards and stuff</h1>
+					<h1>Cards</h1>
 				</header>
 				<footer>
 					©2017 StudyBlue

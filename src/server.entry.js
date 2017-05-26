@@ -4,31 +4,36 @@ import parseArgs from 'minimist';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+
 import webpackConfig from '../webpack.config.babel';
 import renderApp from './renderApp';
 
 const args = parseArgs(process.argv.slice(2));
-const link = chalk.blue.underline;
 
-// set up middlewares to serve the javascript bundle
+// When HMR updates occur the webpack middlewares must be persisted
+const reusedMiddlewares = [];
+
+// Set up the middlewares to serve the Javascript bundle
 const clientConfig = webpackConfig({
 	target: 'client',
 	watch: args.liveClientBundle,
 	hotClient: args.hotClient,
 });
 
-const reusedMiddlewares = [];
-
 if (args.liveClientBundle) {
 	console.info('serving client bundle from memory');
 
 	// webpack-dev/hot-middleware need to share a compiler
 	const clientCompiler = webpack(clientConfig);
-	reusedMiddlewares.push(webpackDevMiddleware(clientCompiler, {
-		publicPath: clientConfig.output.publicPath,
-		stats: { colors: true },
-		serverSideRender: true,
-	}));
+
+	reusedMiddlewares.push(
+		webpackDevMiddleware(clientCompiler, {
+			publicPath: clientConfig.output.publicPath,
+			stats: { colors: true },
+			serverSideRender: true,
+		})
+	);
+
 	if (args.hotClient) {
 		reusedMiddlewares.push(webpackHotMiddleware(clientCompiler));
 	}
@@ -39,28 +44,32 @@ if (args.liveClientBundle) {
 
 // start listening to http requests
 const server = express();
-let router = express.Router();
-assembleRouter();
 
-server.use((req, res, next) => {
-	router(req, res, next);
-});
+let router = null;
 
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || process.env.IP || 'localhost';
-
-server.listen(port, host, () => {
-	console.info('🌮 server started at ' + link(`${host}:${port}`));
-});
-
-
-
-if (module.hot) {
-	module.hot.accept('./renderApp', assembleRouter);
-}
-
+// instantiates a new router and reuses the existing middlewares
 function assembleRouter() {
 	router = express.Router();
 	router.get('/', renderApp);
 	reusedMiddlewares.map(mw => router.use(mw));
 }
+assembleRouter();
+
+// delegate all requests to the current router
+server.use((req, res, next) => {
+	router(req, res, next);
+});
+
+// recreate the router every time an HMR update occurs
+if (module.hot) {
+	module.hot.accept('./renderApp', assembleRouter);
+}
+
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || process.env.IP || 'localhost';
+
+server.listen(port, host, () => {
+	console.info(
+		'🌮 server started at ' + chalk.blue.underline(`${host}:${port}`)
+	);
+});

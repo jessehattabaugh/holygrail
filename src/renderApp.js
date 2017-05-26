@@ -3,8 +3,6 @@ import { renderToString } from 'react-dom/server';
 
 import App from './components/App';
 
-export default renderApp;
-
 function renderApp(req, res) {
 	res.send(`<!DOCTYPE html>
 <html>
@@ -17,3 +15,5 @@ function renderApp(req, res) {
 	</body>
 </html>`);
 }
+
+export default renderApp;

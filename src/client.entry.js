@@ -7,15 +7,12 @@ import App from './components/App';
 mountApp(App);
 
 if (module.hot) {
-	console.log('module.hot');
 	module.hot.accept('./components/App', () => {
-		console.log('./components/App updated');
 		mountApp(App);
 	});
 }
 
 function mountApp(Component) {
-	console.log('mounting app');
 	render(
 		<AppContainer>
 			<Component />
@@ -24,4 +21,4 @@ function mountApp(Component) {
 	);
 }
 
-console.log('client started');
+console.info('client started');

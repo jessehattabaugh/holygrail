@@ -6,6 +6,7 @@ import {
 	//NoEmitOnErrorsPlugin,
 	NamedModulesPlugin,
 } from 'webpack';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const srcPath = path.join(process.cwd(), 'src');
 
@@ -22,18 +23,20 @@ const baseConfig = {
 	},
 };
 
+const basePlugins = [new CleanWebpackPlugin()];
+
 module.exports = (env = {}) => {
 	if (env.target == 'server') {
 		/* server config **********************************************************/
 		console.info('🐬 using the server configuration');
-		const serverPlugins = [];
+		const serverPlugins = Array.from(basePlugins);
 
 		if (env.runServerAfterBundle) {
 			serverPlugins.push(
 				new ShellPlugin({
 					onBuildStart: 'echo 🦄 bundling server',
 					onBuildEnd: `npm run server -- --liveClientBundle${env.hotClient ? ' --hotClient' : ''}`,
-				}),
+				})
 			);
 		}
 
@@ -44,7 +47,7 @@ module.exports = (env = {}) => {
 			serverPlugins.push(
 				new HotModuleReplacementPlugin(),
 				//new NoEmitOnErrorsPlugin(),
-				new NamedModulesPlugin(),
+				new NamedModulesPlugin()
 			);
 		}
 
@@ -67,12 +70,12 @@ module.exports = (env = {}) => {
 		/* client config **********************************************************/
 		console.info('🐙 using the client configuration');
 
-		const clientPlugins = [
+		const clientPlugins = basePlugins.concat([
 			new ShellPlugin({
 				onBuildStart: 'echo 🍭 bundling client',
 				onBuildEnd: 'echo 🐲 done bundling client',
 			}),
-		];
+		]);
 
 		const clientEntries = [path.join(srcPath, 'client.entry.js')];
 
@@ -80,11 +83,11 @@ module.exports = (env = {}) => {
 			clientPlugins.push(
 				new HotModuleReplacementPlugin(),
 				//new NoEmitOnErrorsPlugin(),
-				new NamedModulesPlugin(),
+				new NamedModulesPlugin()
 			);
 			clientEntries.unshift(
 				'react-hot-loader/patch',
-				'webpack-hot-middleware/client',
+				'webpack-hot-middleware/client'
 			);
 		}
 
