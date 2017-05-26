@@ -14,7 +14,7 @@
     "format": "prettier --write --trailing-comma all --use-tabs --single-quote \"{,.,!(node_modules)/**/}*.js\"",
     "kill": "killall -9 node && killall -9 npm",
     "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
-    "precommit": "npm run format && npm run lint",
+    "precommit": "npm run format && npm test",
     "server": "node ./dist/server/server.bundle.js",
     "start-dev": "DEBUG=express:* npm run bundle-server -- --env.watch --env.runServerAfterBundle --env.hotClient --env.hotServer",
     "start": "npm run bundle-server && npm run bundle-client && npm run server",
