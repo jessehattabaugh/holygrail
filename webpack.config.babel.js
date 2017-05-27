@@ -6,7 +6,7 @@ import {
 	//NoEmitOnErrorsPlugin,
 	NamedModulesPlugin,
 } from 'webpack';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+//import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const srcPath = path.join(process.cwd(), 'src');
 const outputDir = 'dist';
@@ -45,7 +45,7 @@ export default (env = {}) => {
 		if (env.hotServer) {
 			serverEntries.unshift('webpack/hot/poll?1000');
 			serverPlugins.push(
-				new CleanWebpackPlugin([serverOutputPath], { watch: !!env.watch }),
+				//new CleanWebpackPlugin([serverOutputPath], { watch: !!env.watch }),
 				new HotModuleReplacementPlugin(),
 				//new NoEmitOnErrorsPlugin(),
 				new NamedModulesPlugin(),
@@ -74,7 +74,7 @@ export default (env = {}) => {
 		const clientOutputPath = path.join(process.cwd(), outputDir, 'client');
 
 		const clientPlugins = [
-			new CleanWebpackPlugin([clientOutputPath], { watch: !!env.watch }),
+			//new CleanWebpackPlugin([clientOutputPath], { watch: !!env.watch }),
 			new ShellPlugin({
 				onBuildStart: 'echo 🍭 bundling client',
 				onBuildEnd: 'echo 🐲 done bundling client',
