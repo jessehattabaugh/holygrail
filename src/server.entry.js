@@ -50,8 +50,8 @@ let router = null;
 function assembleRouter() {
 	console.info('🐠 assembling router');
 	router = express.Router();
-	router.get('/', renderApp);
 	reusedMiddlewares.map(mw => router.use(mw));
+	router.use(renderApp);
 }
 assembleRouter();
 
