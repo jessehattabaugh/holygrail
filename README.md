@@ -39,4 +39,7 @@ flashcard PWA
 * production version isn't minified
 * prettier formats the build products which is unnecessary
 * changes to webpack.config don't take effect until restart (maybe unavoidable)
-* No CSS handling
+* no CSS handling
+* old build products are never cleaned out
+* express server might be missing some headers for secuirty maybe use https://www.npmjs.com/package/helmet
+* chunk filenames don't change between builds so they may get cached, should append hash of the file to the name so that they change when the chunk contents change

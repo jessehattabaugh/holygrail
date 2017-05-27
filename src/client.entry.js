@@ -1,6 +1,7 @@
 import { AppContainer } from 'react-hot-loader';
 import { render } from 'react-dom';
 import * as React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './components/App';
 
@@ -15,7 +16,9 @@ if (module.hot) {
 function mountApp(Component) {
 	render(
 		<AppContainer>
-			<Component />
+			<BrowserRouter>
+				<Component />
+			</BrowserRouter>
 		</AppContainer>,
 		document.getElementById('root'),
 	);
