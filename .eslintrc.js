@@ -1,4 +1,3 @@
-var something = '';
 module.exports = {
 	env: {
 		browser: true,
@@ -6,6 +5,7 @@ module.exports = {
 		node: true,
 	},
 	extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
+	parser: "babel-eslint",
 	parserOptions: {
 		ecmaVersion: '2017',
 		ecmaFeatures: {
