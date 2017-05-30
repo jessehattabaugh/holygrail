@@ -64,9 +64,9 @@ function renderApp(req, res) {
 	console.info('filesUsedInRender', filesUsedInRender);
 
 	// embed script tags for the chunks
-	const scriptTags = [commonsFile, ...filesUsedInRender, mainFile].map(
-		file => `<script src="${file}"></script>`,
-	).join('');
+	const scriptTags = [commonsFile, ...filesUsedInRender, mainFile]
+		.map(file => `<script src="${file}"></script>`)
+		.join('');
 
 	let styleTags = '';
 
