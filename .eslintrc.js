@@ -22,5 +22,6 @@ module.exports = {
 		semi: ['error', 'always'],
 		'no-console': 'off',
 		'comma-dangle': ['error', 'always-multiline'],
+		'react/prop-types': ['warn', { skipUndeclared: true }],
 	},
 };
