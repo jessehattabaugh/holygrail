@@ -15,10 +15,10 @@
     "kill": "killall -9 node && killall -9 npm",
     "lint": "eslint \"**/*.js\" --ignore-path .gitignore --quiet",
     "precommit": "npm run format && npm test",
-    "server": "node ./dist/server/server.bundle.js",
+    "server": "node ./dist/server/main.js",
     "start-dev": "DEBUG=express:* npm run bundle-server -- --env.watch --env.runServerAfterBundle --env.hotClient --env.hotServer",
     "start": "npm run bundle-server && npm run bundle-client && npm run server",
-    "test": "npm run lint && npm run check"
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "@types/node": "^7.0.22",
     "@types/react": "^15.0.25",
     "@types/react-dom": "^15.5.0",
+    "@types/react-loadable": "^3.3.0",
     "@types/webpack": "^2.2.15",
     "@types/webpack-dev-middleware": "^1.9.1",
     "@types/webpack-env": "^1.13.0",
@@ -63,6 +64,7 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-hot-loader": "^3.0.0-beta.7",
+    "react-loadable": "^3.3.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "typescript": "^2.3.3",

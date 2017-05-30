@@ -43,3 +43,5 @@ flashcard PWA
 * old build products are never cleaned out
 * express server might be missing some headers for secuirty maybe use https://www.npmjs.com/package/helmet
 * chunk filenames don't change between builds so they may get cached, should append hash of the file to the name so that they change when the chunk contents change
+* there is no favicon
+* babel doesn't cache it's output, setting cacheDirectory could speed this up

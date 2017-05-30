@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Switch, Route, Link, NavLink } from 'react-router-dom';
+import Lazy from './Lazy';
+
+const Home = Lazy({ loader: () => import('./Home') });
+const About = Lazy({ loader: () => import('./About') });
 
 export default class App extends Component {
 	render() {
@@ -17,15 +21,11 @@ export default class App extends Component {
 
 				<Switch>
 					<Route exact path="/">
-						<article>
-							<h1>Home</h1>
-						</article>
+						<Home />
 					</Route>
 
 					<Route path="/about">
-						<article>
-							<h1>About</h1>
-						</article>
+						<About />
 					</Route>
 				</Switch>
 

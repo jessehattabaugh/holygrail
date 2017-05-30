@@ -30,6 +30,7 @@ if (args.liveClientBundle) {
 		webpackDevMiddleware(clientCompiler, {
 			publicPath: clientConfig.output.publicPath,
 			stats: { colors: true },
+			serverSideRender: true,
 		}),
 	);
 

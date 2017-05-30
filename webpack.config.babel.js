@@ -5,7 +5,9 @@ import {
 	HotModuleReplacementPlugin,
 	//NoEmitOnErrorsPlugin,
 	NamedModulesPlugin,
+	optimize,
 } from 'webpack';
+const { CommonsChunkPlugin } = optimize;
 //import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const srcPath = path.join(process.cwd(), 'src');
@@ -20,6 +22,7 @@ export default (env = {}) => {
 				{
 					test: /\.js$/,
 					loader: 'babel-loader',
+					//exclude: /node_modules/,
 				},
 			],
 		},
@@ -55,7 +58,7 @@ export default (env = {}) => {
 		return Object.assign(baseConfig, {
 			entry: serverEntries,
 			output: {
-				filename: 'server.bundle.js',
+				filename: '[name].js',
 				path: serverOutputPath,
 			},
 			target: 'node',
@@ -79,6 +82,7 @@ export default (env = {}) => {
 				onBuildStart: 'echo 🍭 bundling client',
 				onBuildEnd: 'echo 🐲 done bundling client',
 			}),
+			new CommonsChunkPlugin('commons'),
 		];
 
 		const clientEntries = [path.join(srcPath, 'client.entry.js')];
@@ -98,7 +102,7 @@ export default (env = {}) => {
 		return Object.assign(baseConfig, {
 			entry: clientEntries,
 			output: {
-				filename: 'client.bundle.js',
+				filename: '[name].js',
 				path: clientOutputPath,
 				publicPath: '/',
 			},
