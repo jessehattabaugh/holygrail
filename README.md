@@ -29,7 +29,7 @@ So you want to render your React components on the server and client, for a fast
 
 ## problems
 
-* no router for handling urls, probably gonna use React Router
+* HMR on the client connects, and gets pinged when components change, but the components don't get re-rendered until a navigation occurs
 * ES6 apis are not polyfilled
 * no state management, probably gonna use Redux
 * main chunk is already pretty big even with very little app code. This is can be fixed by moving react and friends to a vendor chunk
