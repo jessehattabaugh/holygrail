@@ -11,7 +11,7 @@ export default class App extends Component {
 		return (
 			<main>
 				<header>
-					<h1><Link to="/">Cards</Link></h1>
+					<h1><Link to="/">Holygrail</Link></h1>
 				</header>
 
 				<nav>
